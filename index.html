@@ -1,0 +1,398 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Gay Fitness Tracker</title>
+  <link rel="icon" type="image" href="web-icon.png">
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+@import url('https://fonts.googleapis.com/css2?family=Boogaloo&display=swap');
+</style>
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="sidebar-logo">
+        <img src="web-icon.png" alt="Fitness Tracker" class="sidebar-logo-img" />
+        <div class="sidebar-title">Fitness Tracker</div>
+      </div>
+      <nav class="sidebar-nav" aria-label="Sections">
+        <button class="sidebar-link" data-page="dashboard" type="button">
+          <img src="dashboard.png" alt="Dashboard" class="sidebar-icon" />
+          <span>Dashboard</span>
+        </button>
+        <button class="sidebar-link" data-page="tracker" type="button">
+          <img src="tracker.png" alt="Tracker" class="sidebar-icon" />
+          <span>Tracker</span>
+        </button>
+        <button class="sidebar-link" data-page="calendar" type="button">
+          <img src="calendar.png" alt="Calendar" class="sidebar-icon" />
+          <span>Calendar</span>
+        </button>
+        <button class="sidebar-link" data-page="history" type="button">
+          <img src="history.png" alt="History" class="sidebar-icon" />
+          <span>History</span>
+        </button>
+      </nav>
+    </aside>
+
+    <main class="main-content">
+      <div class="sections-container">
+        <!-- Dashboard -->
+        <section id="dashboard" class="section">
+        <div class="section-head">
+          <div>
+            <h2 class="h2">Dashboard</h2>
+          </div>
+          <div class="inline-actions">
+            <button id="btnReset" class="btn btn-ghost" type="button" title="Clears all saved tracker data">
+              Reset data
+            </button>
+          </div>
+        </div>
+
+        <!-- User 1 row -->
+        <div class="dashboard-row dashboard-row-user">
+          <div class="card card-dashboard card-u1">
+            <div class="card-title-row">
+              <div class="card-title">Laia <span class="muted">(progress this week)</span></div>
+              <div class="pill pill-green" id="u1StatusPill">On track</div>
+            </div>
+            <div class="metric-row">
+              <div class="metric-main">
+                <div class="metric-value" id="u1WeekSteps">0</div>
+                <div class="metric-sub">steps this week</div>
+              </div>
+              <div class="metric-side">
+                <div class="metric-value" id="u1WeekPct">0%</div>
+                <div class="metric-sub">of weekly goal</div>
+              </div>
+            </div>
+            <div class="divider"></div>
+            <div class="snapshot-item compact-metric">
+              <div class="snapshot-label">Weekly step goal</div>
+              <div class="snapshot-value" id="u1WeeklyGoal">0</div>
+            </div>
+            <div class="progress">
+              <div id="u1ProgressBar" class="progress-bar" style="width:0%"></div>
+            </div>
+            <div class="divider"></div>
+            <div class="snapshot-item compact-metric">
+              <div class="snapshot-label">Today</div>
+              <div class="snapshot-value" id="todayStepsU1">0</div>
+            </div>
+          </div>
+
+          <div class="card card-dashboard card-u1">
+            <div class="card-title">Line graph of the weekly step progress of Laia</div>
+            <div class="chart-wrap">
+              <svg id="u1StepsLineChart" class="chart" viewBox="0 0 600 180" preserveAspectRatio="none" role="img" aria-label="Laia weekly step progress chart"></svg>
+            </div>
+          </div>
+        </div>
+
+        <!-- User 2 row -->
+        <div class="dashboard-row dashboard-row-user">
+          <div class="card card-dashboard card-u2">
+            <div class="card-title-row">
+              <div class="card-title">Venny <span class="muted">(progress this week)</span></div>
+              <div class="pill pill-blue" id="u2StatusPill">On track</div>
+            </div>
+            <div class="metric-row">
+              <div class="metric-main">
+                <div class="metric-value" id="u2WeekSteps">0</div>
+                <div class="metric-sub">steps this week</div>
+              </div>
+              <div class="metric-side">
+                <div class="metric-value" id="u2WeekPct">0%</div>
+                <div class="metric-sub">of weekly goal</div>
+              </div>
+            </div>
+            <div class="divider"></div>
+            <div class="snapshot-item compact-metric">
+              <div class="snapshot-label">Weekly step goal</div>
+              <div class="snapshot-value" id="u2WeeklyGoal">0</div>
+            </div>
+            <div class="progress">
+              <div id="u2ProgressBar" class="progress-bar progress-bar-blue" style="width:0%"></div>
+            </div>
+            <div class="divider"></div>
+            <div class="snapshot-item compact-metric">
+              <div class="snapshot-label">Today</div>
+              <div class="snapshot-value" id="todayStepsU2">0</div>
+            </div>
+          </div>
+
+          <div class="card card-dashboard card-u2">
+            <div class="card-title">Line graph of the weekly step progress of Venny</div>
+            <div class="chart-wrap">
+              <svg id="u2StepsLineChart" class="chart" viewBox="0 0 600 180" preserveAspectRatio="none" role="img" aria-label="Venny weekly step progress chart"></svg>
+            </div>
+          </div>
+        </div>
+
+        <!-- Combined + overall goal row -->
+        <div class="dashboard-row dashboard-row-combined">
+          <div class="card card-dashboard card-combined">
+            <div class="card-title-row">
+              <div class="card-title">Combined weekly goal</div>
+            </div>
+            <div class="pill pill-blue dashboard-week-pill" id="currentWeekPill">Current week</div>
+
+            <div class="metric-row">
+              <div class="metric-main">
+                <div class="metric-value" id="combinedWeekSteps">0</div>
+                <div class="metric-sub">steps this week (combined)</div>
+              </div>
+              <div class="metric-side">
+                <div class="metric-value" id="sharedWeekPct">0%</div>
+                <div class="metric-sub">of shared goal</div>
+              </div>
+            </div>
+            <div class="progress">
+              <div id="sharedProgressBar" class="progress-bar progress-bar-gradient" style="width:0%"></div>
+            </div>
+
+            <div class="divider"></div>
+            <div class="muted" id="comparisonText">Comparison</div>
+            <div class="exercise-mini">
+              <div class="exercise-mini-item">
+                <div class="exercise-mini-label">Exercises this week</div>
+                <div class="exercise-mini-value" id="exercisesWeekTotal">0</div>
+              </div>
+              <div class="exercise-mini-item">
+                <div class="exercise-mini-label">Goal progress</div>
+                <div class="exercise-mini-value" id="exercisesWeekPct">0%</div>
+              </div>
+            </div>
+
+            <div class="divider"></div>
+            <div class="snapshot-item compact-metric">
+              <div class="snapshot-label">Weekly step goal (combined)</div>
+              <div class="snapshot-value" id="combinedWeeklyGoal">0</div>
+            </div>
+          </div>
+
+          <div class="card card-dashboard card-overall">
+            <div class="card-title">Overall goal (goal until December)</div>
+            <div class="metric-row">
+              <div class="metric-main">
+                <div class="metric-value" id="overallStepsTotal">0</div>
+                <div class="metric-sub">combined steps logged</div>
+              </div>
+              <div class="metric-side">
+                <div class="metric-value" id="overallGoalPct">0%</div>
+                <div class="metric-sub">of December target</div>
+              </div>
+            </div>
+            <div class="progress">
+              <div id="overallProgressBar" class="progress-bar progress-bar-gradient" style="width:0%"></div>
+            </div>
+            <div class="muted small" id="overallGoalLabel">Target through December 2026</div>
+            <div class="divider"></div>
+            <div class="chart-wrap">
+              <svg id="weeklyBarChart" class="chart" viewBox="0 0 600 180" preserveAspectRatio="none" role="img" aria-label="Weekly combined steps toward December goal"></svg>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Tracker -->
+      <section id="tracker" class="section">
+        <div class="section-head">
+          <div>
+            <h2 class="h2">Tracker</h2>
+            <p class="muted">Record your daily activities and review weekly performance.</p>
+          </div>
+        </div>
+
+        <div class="tracker-layout">
+          <div class="card card-tracker">
+            <form id="activityForm" class="form tracker-form">
+              <div class="tracker-form-grid">
+                <label class="field">
+                  <span class="label">User</span>
+                  <select id="activityUser" class="tracker-input" required>
+                    <option value="u1">Laia</option>
+                    <option value="u2">Venny</option>
+                  </select>
+                </label>
+
+                <label class="field">
+                  <span class="label">Date</span>
+                  <input id="activityDate" class="tracker-input" type="date" required />
+                </label>
+
+                <label class="field">
+                  <span class="label">Steps completed</span>
+                  <input id="activitySteps" class="tracker-input" type="number" min="0" step="1" required inputmode="numeric" />
+                </label>
+
+                <label class="field">
+                  <span class="label">Step type</span>
+                  <select id="activityStepType" class="tracker-input" required placeholder="Select a step type">
+                    <option value="walk">Walk</option>
+                    <option value="jog">Jog</option>
+                    <option value="run">Run</option>
+                  </select>
+                </label>
+
+                <label class="field field-full">
+                  <span class="label">Extra exercise</span>
+                  <textarea id="activityExtraExercise" class="tracker-input tracker-textarea" rows="3" placeholder="e.g. stretching, weights, push ups, etc…"></textarea>
+                </label>
+
+                <label class="field field-full">
+                  <span class="label">Additional notes</span>
+                  <textarea id="activityNotes" class="tracker-input tracker-textarea tracker-textarea-notes" rows="4" placeholder="How did it feel? Any tips?" maxlength="500"></textarea>
+                </label>
+              </div>
+
+              <div class="tracker-actions">
+                <button class="btn btn-tracker-save" type="submit">Save Entry</button>
+              </div>
+
+              <div class="hint muted" id="formHint"></div>
+            </form>
+          </div>
+
+          <div class="card card-tracker card-tracker-recent">
+            <div class="card-title">Recent Entries</div>
+            <div class="table-wrap tracker-table-wrap">
+              <table class="table compact">
+                <thead>
+                  <tr>
+                    <th>Date</th>
+                    <th>User</th>
+                    <th>Steps</th>
+                    <th>Step type</th>
+                  </tr>
+                </thead>
+                <tbody id="recentEntriesBody"></tbody>
+              </table>
+            </div>
+            <div class="muted small" id="recentEntriesHint"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- History -->
+      <section id="history" class="section">
+        <div class="section-head">
+          <div>
+            <h2 class="h2">History / Weekly Record Summary</h2>
+            <p class="muted">Filter your past inputs and review weekly performance.</p>
+          </div>
+        </div>
+
+        <div class="card-title-row" style="margin-top: 12px;">
+          <div class="card-title">Weekly Progress Comparison</div>
+        </div>
+
+        <div class="grid two-cols" id="historyWeeklyComparison"></div>
+
+        <div class="card-title-row">
+          <div class="card-title">History</div>
+        </div>
+
+        <div class="filter-bar">
+          <div class="filter-group">
+            <label class="label">User</label>
+            <select id="historyUserFilter">
+              <option value="all">All users</option>
+              <option value="u1">Laia</option>
+              <option value="u2">Venny</option>
+            </select>
+          </div>
+          <div class="filter-group">
+            <label class="label">Week</label>
+            <select id="historyWeekFilter">
+              <option value="all">All weeks</option>
+            </select>
+          </div>
+          <div class="filter-group">
+            <label class="label">Month</label>
+            <select id="historyMonthFilter">
+              <option value="all">All months</option>
+            </select>
+          </div>
+          <div class="filter-group filter-actions">
+            <button id="btnHistoryResetFilters" class="btn btn-ghost" type="button">Clear filters</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="table-wrap" style="max-height: 400px; overflow-y: auto;">
+            <table class="table">
+              <thead style="position: sticky; top: 0; background: white; z-index: 1; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                <tr>
+                  <th>Date</th>
+                  <th>User</th>
+                  <th>Steps</th>
+                  <th>Step type</th>
+                  <th>Extra exercise</th>
+                  <th>Notes</th>
+                </tr>
+              </thead>
+              <tbody id="historyTableBody"></tbody>
+            </table>
+          </div>
+
+          <div class="empty-state muted" id="historyEmptyState" style="display:none">
+            No entries match your filters yet. Log some data in the Tracker tab.
+          </div>
+        </div>
+      </section>
+
+      <!-- Calendar -->
+      <section id="calendar" class="section">
+        <div class="section-head">
+          <div>
+            <h2 class="h2">Calendar / Schedule</h2>
+            <p class="muted">Weekly exercise plans, upcoming goals, and planned step targets until December 2026.</p>
+          </div>
+        </div>
+
+        <div class="grid two-cols">
+          <div class="card">
+            <div class="card-title">Upcoming Weeks</div>
+            <div id="upcomingWeeksCards" class="week-cards"></div>
+            <div class="card-title">Legend</div>
+            <div class="legend-grid">
+              <div class="legend-swatch completed">
+                <span class="legend-dot"></span>Completed
+              </div>
+              <div class="legend-swatch ongoing">
+                <span class="legend-dot"></span>Ongoing
+              </div>
+              <div class="legend-swatch upcoming">
+                <span class="legend-dot"></span>Upcoming
+              </div>
+              <div class="legend-swatch missed">
+                <span class="legend-dot"></span>Missed
+              </div>
+            </div>
+            <div class="divider"></div>
+          </div>
+
+          <div class="card">
+            <div class="card-title">Monthly Overview</div>
+            <div class="muted small">
+              Schedule is generated from your shared step goal and planned workout days (Tue / Thu / Sat).
+            </div>
+            <div class="divider"></div>
+            <div id="calendarContainer" class="calendar-scroll"></div>
+          </div>
+        </div>
+      </section>
+      </div>
+    </main>
+
+    <div id="toast" class="toast" aria-live="polite"></div>
+  </div>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>
+
