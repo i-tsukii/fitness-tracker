@@ -2,7 +2,8 @@
  * Data is stored locally in the browser via localStorage (no server required).
  */
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import { getDatabase, ref, push, set, onValue } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+import { getDatabase, ref, push, set, onValue, remove } 
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
@@ -108,32 +109,41 @@ const database = getDatabase(app);
     }
   }
 
-  function saveEntry(data) {
+function saveEntry(data) {
     const trackerRef = ref(database, "trackerEntries");
     const newEntry = push(trackerRef);
 
     set(newEntry, data);
 }
 
-  function toast(message) {
+async function resetAllData() {
+    try {
+        await remove(ref(database, "trackerEntries"));
+
+        state.activities = [];
+        renderAll();
+
+        toast("All tracker data has been reset.");
+    } catch (error) {
+        console.error("Reset failed:", error);
+        toast("Failed to reset data.");
+    }
+}
+
+function toast(message) {
     const t = els.toast;
     if (!t) return;
     t.textContent = message;
     t.classList.add("show");
     window.clearTimeout(toast._timer);
     toast._timer = window.setTimeout(() => t.classList.remove("show"), 2200);
-  }
+}
 
-  function normalizeStepType(type) {
+function normalizeStepType(type) {
     const t = String(type || "").toLowerCase();
     if (t === "walk" || t === "jog" || t === "run") return t;
     return "walk";
-  }
-
-  function getStepType(activity) {
-    if (activity.stepType) return normalizeStepType(activity.stepType);
-    return "walk";
-  }
+}
 
   function getExtraExercise(activity) {
     if (activity.extraExercise && String(activity.extraExercise).trim()) return String(activity.extraExercise).trim();
