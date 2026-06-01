@@ -121,7 +121,11 @@ async function resetAllData() {
         await remove(ref(database, "trackerEntries"));
 
         state.activities = [];
-        renderAll();
+
+        renderDashboard();
+        renderHistory();
+        renderCalendar();
+        renderTracker();
 
         toast("All tracker data has been reset.");
     } catch (error) {
