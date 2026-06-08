@@ -544,10 +544,10 @@ function normalizeStepType(type) {
     const series1 = dailySeries("u1", 7);
     const series2 = dailySeries("u2", 7);
     renderLineChart(els.u1StepsLineChart, [
-      { values: series1.map((p) => ({ iso: p.iso, value: p.value })), stroke: "rgba(34, 197, 94, 0.95)" },
+      { values: series1.map((p) => ({ iso: p.iso, value: p.value })), stroke: "#420303" },
     ]);
     renderLineChart(els.u2StepsLineChart, [
-      { values: series2.map((p) => ({ iso: p.iso, value: p.value })), stroke: "rgba(59, 130, 246, 0.95)" },
+      { values: series2.map((p) => ({ iso: p.iso, value: p.value })), stroke: "#0524D7" },
     ]);
 
     const bars = weeklySeriesCombined(8).map((wk) => {
