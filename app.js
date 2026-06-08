@@ -149,6 +149,10 @@ function normalizeStepType(type) {
     return "walk";
 }
 
+  function getStepType(activity) {
+    return activity.stepType || "walk";
+  }
+
   function getExtraExercise(activity) {
     if (activity.extraExercise && String(activity.extraExercise).trim()) return String(activity.extraExercise).trim();
     if (activity.durationMinutes && safeNumber(activity.durationMinutes, 0) > 0) {
@@ -1173,8 +1177,10 @@ function normalizeStepType(type) {
 
     if (data) {
         state.activities = Object.values(data);
-        renderAll();
+    } else {
+        state.activities = [];
     }
+    renderAll();
     });
 
     // Cross-tab real-time updates.
